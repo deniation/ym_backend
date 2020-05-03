@@ -19,7 +19,22 @@ export interface TaxiUser {
     licenseNumber : string; 
     licenseType : string;
     issueDate: string; 
-    experience: number;
+    experienceYears: number;
+    phoneNumber : string;
+    passportPhoto : string;
+    mvmcRegistration : string;
+    logbookSerial : string;
+    inspectionDone : boolean;
+    inspectionReportNumber : string;
+    ownerFirstName : string;
+    ownerLastName : string;
+    ownerKenyanID : string;
+    ownerPhone : string;
+    ownerPassportPhoto : string;
+    ownerConsent : string;
+    vehiclePhotos : string[];
+    taxiStandLocation : string;
+    areasServed : string[]
 }
 
 

@@ -5,7 +5,7 @@ import * as express from 'express';
 import * as cors from 'cors';
 import * as admin from 'firebase-admin';
 import * as bodyParser from 'body-parser';
-import { PersonalUser, VendorUser } from './models/user';
+import { PersonalUser, VendorUser, TaxiUser } from './models/user';
 
 admin.initializeApp(functions.config().database);
 
@@ -23,14 +23,14 @@ function storeFile(file : string): string {
 
 //handlers
 app.post('/user/register', (req,resp) => {
-    if(req.body.email === null ||
-        req.body.username === null ||
-        req.body.firstName === null ||
-        req.body.lastName  === null) {
+    if(!req.body.email  ||
+        !req.body.username  ||
+        !req.body.firstName  ||
+        !req.body.lastName  ) {
             resp.status(401).send("Missing parameters check request and resend");
     }
 
-    let user: PersonalUser = {
+    const user: PersonalUser = {
         email : req.body.email,
         username: req.body.username,
         firstName: req.body.firstName,
@@ -47,18 +47,59 @@ app.post('/user/register', (req,resp) => {
 });
 
 app.post('/taxiUser/register', (req, resp) => {
-    if( req.body.email === null ||
-        req.body.username == null ||
-        req.body.firstName === null ||
-        req.body.lastName === null ||
-        req.body.kenyanID === null || 
-        req.body.licenseType === null ||
-        req.body.issueDate === null ||
-        req.body.experienceYears === null) {
+    if( !req.body.email  ||
+        !req.body.username  ||
+        !req.body.firstName  ||
+        !req.body.lastName  ||
+        !req.body.kenyanID  || 
+        !req.body.licenseNumber  ||
+        !req.body.licenseType  ||
+        !req.body.issueDate  ||
+        !req.body.experienceYears  ||
+        !req.body.phoneNumber  ||
+        !req.body.passportPhoto  ||
+        !req.body.mvmcRegistration  ||
+        !req.body.logbookSerial  ||
+        !req.body.inspectionDone  ||
+        !req.body.inspectionReportNumber  ||
+        !req.body.ownerFirstName  ||
+        !req.body.ownerLastName  ||
+        !req.body.ownerKenyanID  ||
+        !req.body.ownerPhone  ||
+        !req.body.ownerPassportPhoto  ||
+        !req.body.ownerConsent ) {
             resp.status(401).send("missing parameters check request and resend");
     }
+
+    const taxiUser : TaxiUser = {
+        email : req.body.email,
+        username: req.body.username ,
+        firstName: req.body.firstName ,
+        lastName: req.body.lastName ,
+        kenyanID: req.body.kenyanID ,
+        licenseNumber: req.body.licenseNumber, 
+        licenseType: req.body.licenseType ,
+        issueDate: req.body.issueDate ,
+        experienceYears: req.body.experienceYears ,
+        phoneNumber: req.body.phoneNumber ,
+        passportPhoto: storeFile(req.body.passportPhoto),
+        mvmcRegistration: req.body.mvmcRegistration ,
+        logbookSerial: req.body.logbookSerial ,
+        inspectionDone: req.body.inspectionDone ,
+        inspectionReportNumber: req.body.inspectionReportNumber ,
+        ownerFirstName: req.body.ownerFirstName ,
+        ownerLastName: req.body.ownerLastName ,
+        ownerKenyanID: req.body.ownerKenyanID ,
+        ownerPhone: req.body.ownerPhone ,
+        ownerPassportPhoto: req.body.ownerPassportPhoto ,
+        ownerConsent: req.body.ownerConsent ,
+        vehiclePhotos: req.body.vehiclePhotos? req.body.vehiclePhotos.map(storeFile): [],
+        taxiStandLocation: req.body.taxiStandLocation?req.body.taxiStandLocation: '',
+        areasServed : req.body.areasServed? req.body.areasServed : []
+    } 
+    
     const ref = admin.database().ref("/taxiUsers/" + req.body.username)
-    ref.set(req.body).then(() => {
+    ref.set(taxiUser).then(() => {
         console.log("database write is succesful");
     }).catch(() => {
         console.log("some error occurred");
@@ -67,22 +108,22 @@ app.post('/taxiUser/register', (req, resp) => {
 });
 
 app.post('/vendorUser/register', (req, resp) => {
-    if(req.body.email === null ||
-        req.body.username === null ||
-        req.body.firstName === null ||
-        req.body.lastName === null ||
-        req.body.phoneNumber === null ||
-        req.body.kenyanID === null || 
-        req.body.passportPhoto === null ||
-        req.body.businessName === null ||
-        req.body.previewPhotos === null || 
-        req.body.vatRegistered === null ||
-        req.body.businessRegistered === null ||
-        req.body.supervisorFirstName === null ||
-        req.body.supervisorLastName === null)  {
+    if(!req.body.email  ||
+        !req.body.username  ||
+        !req.body.firstName  ||
+        !req.body.lastName  ||
+        !req.body.phoneNumber  ||
+        !req.body.kenyanID  || 
+        !req.body.passportPhoto  ||
+        !req.body.businessName  ||
+        !req.body.previewPhotos  || 
+        !req.body.vatRegistered  ||
+        !req.body.businessRegistered  ||
+        !req.body.supervisorFirstName  ||
+        !req.body.supervisorLastName )  {
             resp.status(401).send("missing parameters check request and resend");
     }
-    let vendorUser : VendorUser = {
+    const vendorUser : VendorUser = {
         username: req.body.username,
         email: req.body.email,
         firstName: req.body.firstName,

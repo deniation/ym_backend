@@ -26,13 +26,29 @@ def test_taxi_register():
         'firstName': 'first', 
         'lastName': 'last', 
         'kenyanID': '12321431', 
+        'licenseNumber': '123435',
         'licenseType': 'class D', 
         'issueDate': '2001-01-01T',
         'experienceYears' : 5,
+        'phoneNumber': '123456',
+        'passportPhoto': 'someFileStr',
+        'mvmcRegistration': 'someserial.',
+        'logbookSerial': 'someserial', 
+        'inspectionDone': True,
+        'inspectionReportNumber': '123456', 
+        'ownerFirstName': 'first',
+        'ownerLastName' : 'last', 
+        'ownerKenyanID': '12354123',
+        'ownerPhone' : '123456',
+        'ownerPassportPhoto': 'someFileStr', 
+        'ownerConsent': 'somefileStr',
+        'vehiclePhotos' : ['file1', 'file2'],
+        'taxiStandLocation': 'a location',
+        'areasServed': ['loc1', 'loc2', 'loc3']
     }
     url  = "{}/taxiUser/register".format(BASE_URL)
     res = requests.post(url, json= body, headers = {'Content-Type': 'application/json'})
-    print('test_user_register\n\t STATUS CODE:{} '.format(res.status_code))
+    print('test_taxi_register\n\t STATUS CODE:{} '.format(res.status_code))
     print('\t BODY: {}'.format(res.text))
 
 def test_vendor_register(): 
