@@ -46,6 +46,17 @@ app.post('/user/register', (req,resp) => {
     resp.json({'success': true}).send();
 });
 
+app.get('/user/:username', async (req,resp) => {
+    
+    const snap = await admin.database().ref("/users/" + req.params.username).once('value');
+    let user:PersonalUser = snap.val();
+    if(user) {
+        resp.json(user).send();
+    }else {
+        resp.status(404).send();
+    }
+});
+
 app.post('/taxiUser/register', (req, resp) => {
     if( !req.body.email  ||
         !req.body.username  ||
@@ -107,6 +118,17 @@ app.post('/taxiUser/register', (req, resp) => {
     resp.json({'success': true}).send();  
 });
 
+app.get('/taxiUser/:username', async (req,resp) => {
+    
+    const snap = await admin.database().ref("/taxiUsers/" + req.params.username).once('value');
+    let user:TaxiUser = snap.val();
+    if(user) {
+        resp.json(user).send();
+    }else {
+        resp.status(404).send();
+    }
+});
+
 app.post('/vendorUser/register', (req, resp) => {
     if(!req.body.email  ||
         !req.body.username  ||
@@ -150,5 +172,15 @@ app.post('/vendorUser/register', (req, resp) => {
          
 });
 
+app.get('/vendorUser/:username', async (req,resp) => {
+    
+    const snap = await admin.database().ref("/vendorUsers/" + req.params.username).once('value');
+    let user:VendorUser = snap.val();
+    if(user) {
+        resp.json(user).send();
+    }else {
+        resp.status(404).send();
+    }
+});
 
 exports.registration = functions.https.onRequest(app);
