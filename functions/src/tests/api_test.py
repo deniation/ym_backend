@@ -8,11 +8,12 @@ BASE_URL = 'https://us-central1-y2m-test.cloudfunctions.net/registration'
 
 def test_user_register(): 
     body = {
-        'email' : 'fake@fake.com',
+        'email' : 'fake@faker.com',
         'username': 'foo',
         'firstName': 'first', 
         'lastName': 'last', 
-        'profile' : 'somefilestr'
+        'profile' : 'somefilestr',
+        'password': 'foofoofoo12'
     }
     url  = "{}/user/register".format(BASE_URL)
     res = requests.post(url, json= body, headers = {'Content-Type': 'application/json'})
@@ -44,7 +45,8 @@ def test_taxi_register():
         'ownerConsent': 'somefileStr',
         'vehiclePhotos' : ['file1', 'file2'],
         'taxiStandLocation': 'a location',
-        'areasServed': ['loc1', 'loc2', 'loc3']
+        'areasServed': ['loc1', 'loc2', 'loc3'],
+        'password': 'foofoofoo12'
     }
     url  = "{}/taxiUser/register".format(BASE_URL)
     res = requests.post(url, json= body, headers = {'Content-Type': 'application/json'})
@@ -53,11 +55,11 @@ def test_taxi_register():
 
 def test_vendor_register(): 
     body = {
-        'email' : 'fake@fake.com',
-        'username': 'foo',
+        'email' : 'fake@fakest.com',
+        'username': 'fooer',
         'firstName': 'first', 
         'lastName': 'last', 
-        'phoneNumber': '12345656',
+        'phoneNumber': '+254722235446',
         'kenyanID': '12321431', 
         'passportPhoto': 'somefileStr',
         'businessName': 'fake business',
@@ -67,7 +69,8 @@ def test_vendor_register():
         'businessRegistered': True, 
         'vat': 'someformated#', 
         'supervisorFirstName': 'a name',
-        'supervisorLastName' : 'a lastName'
+        'supervisorLastName' : 'a lastName',
+        'password': 'foofoofoo12'
     }
 
     url  = "{}/vendorUser/register".format(BASE_URL)

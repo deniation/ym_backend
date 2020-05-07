@@ -26,6 +26,7 @@ app.post('/user/register', async (req,resp) => {
     if(!req.body.email  ||
         !req.body.username  ||
         !req.body.firstName  ||
+        !req.body.password ||
         !req.body.lastName  ) {
             resp.status(401).send("Missing parameters check request and resend");
     }
@@ -48,6 +49,7 @@ app.post('/user/register', async (req,resp) => {
         email: user.email,
         emailVerified: false,
         displayName: `${user.firstName} ${user.lastName}`,
+        password: req.body.password,
         disabled: false
     });
     console.log("User created ", userRecord)
@@ -86,6 +88,7 @@ app.post('/taxiUser/register', async (req, resp) => {
         !req.body.ownerKenyanID  ||
         !req.body.ownerPhone  ||
         !req.body.ownerPassportPhoto  ||
+        !req.body.password ||
         !req.body.ownerConsent ) {
             resp.status(401).send("missing parameters check request and resend");
     }
@@ -126,6 +129,7 @@ app.post('/taxiUser/register', async (req, resp) => {
         emailVerified: false,
         phoneNumber: taxiUser.phoneNumber,
         displayName: `${taxiUser.firstName} ${taxiUser.lastName}`,
+        password: req.body.password,
         disabled: false
     });
     console.log("Taxi User created ", userRecord)
@@ -157,6 +161,7 @@ app.post('/vendorUser/register', async(req, resp) => {
         !req.body.vatRegistered  ||
         !req.body.businessRegistered  ||
         !req.body.supervisorFirstName  ||
+        !req.body.password ||
         !req.body.supervisorLastName )  {
             resp.status(401).send("missing parameters check request and resend");
     }
@@ -189,8 +194,10 @@ app.post('/vendorUser/register', async(req, resp) => {
         emailVerified: false,
         phoneNumber: vendorUser.phoneNumber,
         displayName: `${vendorUser.firstName} ${vendorUser.lastName}`,
+        password: req.body.password,
         disabled: false
     });
+    
     console.log("Vendor User created ", userRecord)
     resp.json({'success': true}).send(); 
          
