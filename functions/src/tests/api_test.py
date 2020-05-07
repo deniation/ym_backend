@@ -21,8 +21,8 @@ def test_user_register():
 
 def test_taxi_register():
     body = {
-        'email' : 'fake@fake.com',
-        'username': 'foo',
+        'email' : 'david.muchene@gmail.com',
+        'username': 'dog_poop',
         'firstName': 'first', 
         'lastName': 'last', 
         'kenyanID': '12321431', 
@@ -30,7 +30,7 @@ def test_taxi_register():
         'licenseType': 'class D', 
         'issueDate': '2001-01-01T',
         'experienceYears' : 5,
-        'phoneNumber': '123456',
+        'phoneNumber': '+254722235445',
         'passportPhoto': 'someFileStr',
         'mvmcRegistration': 'someserial.',
         'logbookSerial': 'someserial', 

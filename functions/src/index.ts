@@ -22,7 +22,7 @@ function storeFile(file : string): string {
 }
 
 //handlers
-app.post('/user/register', (req,resp) => {
+app.post('/user/register', async (req,resp) => {
     if(!req.body.email  ||
         !req.body.username  ||
         !req.body.firstName  ||
@@ -43,6 +43,14 @@ app.post('/user/register', (req,resp) => {
     }).catch(() => {
         console.log("some error occurred");
     });
+
+    const userRecord  = await admin.auth().createUser({
+        email: user.email,
+        emailVerified: false,
+        displayName: `${user.firstName} ${user.lastName}`,
+        disabled: false
+    });
+    console.log("User created ", userRecord)
     resp.json({'success': true}).send();
 });
 
@@ -57,7 +65,7 @@ app.get('/user/:username', async (req,resp) => {
     }
 });
 
-app.post('/taxiUser/register', (req, resp) => {
+app.post('/taxiUser/register', async (req, resp) => {
     if( !req.body.email  ||
         !req.body.username  ||
         !req.body.firstName  ||
@@ -109,12 +117,19 @@ app.post('/taxiUser/register', (req, resp) => {
         areasServed : req.body.areasServed? req.body.areasServed : []
     } 
     
-    const ref = admin.database().ref("/taxiUsers/" + req.body.username)
-    ref.set(taxiUser).then(() => {
-        console.log("database write is succesful");
-    }).catch(() => {
-        console.log("some error occurred");
+    const ref = admin.database().ref("/taxiUsers/" + req.body.username);
+    
+    await ref.set(taxiUser);
+
+    const userRecord  = await admin.auth().createUser({
+        email: taxiUser.email,
+        emailVerified: false,
+        phoneNumber: taxiUser.phoneNumber,
+        displayName: `${taxiUser.firstName} ${taxiUser.lastName}`,
+        disabled: false
     });
+    console.log("Taxi User created ", userRecord)
+
     resp.json({'success': true}).send();  
 });
 
@@ -129,7 +144,7 @@ app.get('/taxiUser/:username', async (req,resp) => {
     }
 });
 
-app.post('/vendorUser/register', (req, resp) => {
+app.post('/vendorUser/register', async(req, resp) => {
     if(!req.body.email  ||
         !req.body.username  ||
         !req.body.firstName  ||
@@ -168,6 +183,15 @@ app.post('/vendorUser/register', (req, resp) => {
     }).catch(() => {
         console.log("some error occurred");
     });
+
+    const userRecord  = await admin.auth().createUser({
+        email: vendorUser.email,
+        emailVerified: false,
+        phoneNumber: vendorUser.phoneNumber,
+        displayName: `${vendorUser.firstName} ${vendorUser.lastName}`,
+        disabled: false
+    });
+    console.log("Vendor User created ", userRecord)
     resp.json({'success': true}).send(); 
          
 });
